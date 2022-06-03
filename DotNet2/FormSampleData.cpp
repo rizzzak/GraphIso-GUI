@@ -55,6 +55,10 @@ std::vector<std::vector<int>> genGraphWithDensity(int n, double D)
     }
     return newGraph;
 }
+
+System::Void DotNet2::FormSampleData::выходToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+    Application::Exit();
+}
 //добавить пару графов в список
 System::Void DotNet2::FormSampleData::button1_Click(System::Object^ sender, System::EventArgs^ e)
 {

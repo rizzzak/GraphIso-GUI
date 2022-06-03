@@ -96,7 +96,10 @@ namespace DotNet2 {
 		std::vector<int>* methodsEnableList;
 
 		std::vector<std::string>* userActionsHistory;
-	
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ âûõîäToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ îÏðîãðàììåToolStripMenuItem;
+
 
 		   std::vector<int>* cellPaintedHistory;
 
@@ -142,14 +145,18 @@ namespace DotNet2 {
 			this->button13 = (gcnew System::Windows::Forms::Button());
 			this->button14 = (gcnew System::Windows::Forms::Button());
 			this->button15 = (gcnew System::Windows::Forms::Button());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+			this->âûõîäToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->îÏðîãðàììåToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->BeginInit();
+			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(12, 10);
+			this->label1->Location = System::Drawing::Point(29, 35);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(52, 13);
 			this->label1->TabIndex = 0;
@@ -492,6 +499,31 @@ namespace DotNet2 {
 			this->button15->UseVisualStyleBackColor = true;
 			this->button15->Click += gcnew System::EventHandler(this, &FormSampleData::button15_Click);
 			// 
+			// menuStrip1
+			// 
+			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
+				this->âûõîäToolStripMenuItem,
+					this->îÏðîãðàììåToolStripMenuItem
+			});
+			this->menuStrip1->Location = System::Drawing::Point(0, 0);
+			this->menuStrip1->Name = L"menuStrip1";
+			this->menuStrip1->Size = System::Drawing::Size(820, 24);
+			this->menuStrip1->TabIndex = 36;
+			this->menuStrip1->Text = L"menuStrip1";
+			// 
+			// âûõîäToolStripMenuItem
+			// 
+			this->âûõîäToolStripMenuItem->Name = L"âûõîäToolStripMenuItem";
+			this->âûõîäToolStripMenuItem->Size = System::Drawing::Size(54, 20);
+			this->âûõîäToolStripMenuItem->Text = L"Âûõîä";
+			this->âûõîäToolStripMenuItem->Click += gcnew System::EventHandler(this, &FormSampleData::âûõîäToolStripMenuItem_Click);
+			// 
+			// îÏðîãðàììåToolStripMenuItem
+			// 
+			this->îÏðîãðàììåToolStripMenuItem->Name = L"îÏðîãðàììåToolStripMenuItem";
+			this->îÏðîãðàììåToolStripMenuItem->Size = System::Drawing::Size(94, 20);
+			this->îÏðîãðàììåToolStripMenuItem->Text = L"Î ïðîãðàììå";
+			// 
 			// FormSampleData
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -530,11 +562,15 @@ namespace DotNet2 {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
+			this->Controls->Add(this->menuStrip1);
+			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"FormSampleData";
 			this->Text = L"FormSampleData";
 			this->Load += gcnew System::EventHandler(this, &FormSampleData::FormSampleData_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->EndInit();
+			this->menuStrip1->ResumeLayout(false);
+			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -567,6 +603,7 @@ namespace DotNet2 {
 				this->methodsEnableList->push_back(0);
 			}
 		}
+		
 		private: System::Void dataGridView1_CellValueNeeded(System::Object^ sender, System::Windows::Forms::DataGridViewCellValueEventArgs^ e) {
 			if (e->RowIndex == this->dataGridView1->RowCount) return;
 			if (e->RowIndex == rowInEdit)
@@ -578,8 +615,6 @@ namespace DotNet2 {
 				e->Value = (*this->graphBig)[e->RowIndex][e->ColumnIndex];
 			}
 		}
-	
-
 		private: System::Void dataGridView1_CellValuePushed(System::Object^ sender, System::Windows::Forms::DataGridViewCellValueEventArgs^ e) {
 			//ñ÷èòûâàíèå ðÿäà customers[row] â customerInEdit, èçìåíåíèå ÿ÷åéêè customerInEdit[col]
 			if (e->RowIndex < this->graphBig->size())
@@ -600,8 +635,6 @@ namespace DotNet2 {
 			int newValue = std::stoi(buff1);;
 			(*this->customerInEdit)[e->ColumnIndex] = newValue;
 		}
-			
-
 		private: System::Void dataGridView1_NewRowNeeded(System::Object^ sender, System::Windows::Forms::DataGridViewRowEventArgs^ e) {
 		
 			// äîáàâëåíèå íîâîé âåðøèíû
@@ -615,7 +648,6 @@ namespace DotNet2 {
 			this->dataGridView1->RowCount++;
 			this->dataGridView1->Update();
 		}
-		   
 		private: System::Void dataGridView1_RowValidated(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 			// Save row changes if any were made and release the edited
 			// Customer object if there is one.
@@ -639,7 +671,6 @@ namespace DotNet2 {
 			this->customerInEdit = nullptr;
 			this->rowInEdit = -1;
 		}
-		   
 		private: System::Void dataGridView1_CancelRowEdit(System::Object^ sender, System::Windows::Forms::QuestionEventArgs^ e) {
 			if (this->rowInEdit == this->dataGridView1->Rows->Count - 2 &&
 				this->rowInEdit == this->graphBig->size())
@@ -662,7 +693,6 @@ namespace DotNet2 {
 				this->rowInEdit = -1;
 			}
 		}
-		
 		private: System::Void dataGridView1_UserDeletingRow(System::Object^ sender, System::Windows::Forms::DataGridViewRowCancelEventArgs^ e) {
 			this->dataGridView1->ColumnCount--;
 			if (e->Row->Index < this->graphBig->size())
@@ -713,66 +743,16 @@ namespace DotNet2 {
 			dataGridView2->Refresh();
 	
 		}
-		private: System::Void button9_Click(System::Object^ sender, System::EventArgs^ e) {
-			String^ strBuf;
-			for (int i = 0; i < this->graphBig->size(); i++)
-			{
-				for (int j = 0; j < (*this->graphBig)[i].size(); j++)
-				{
-					strBuf += (*this->graphBig)[i][j].ToString();
-				}
-				strBuf += "\n";
-			}
-			MessageBox::Show(strBuf);
-		}
-		private: System::Void button10_Click(System::Object^ sender, System::EventArgs^ e) {
-			String^ strBuf;
-			for (int k = 0; k < (*sampleGraphBig).size(); k++)
-			{
-				strBuf += k;
-				strBuf += "\n";
-				for (int i = 0; i < (*sampleGraphBig)[k].size(); i++)
-				{
-					for (int j = 0; j < (*sampleGraphBig)[k][i].size(); j++)
-					{
-						strBuf += (*sampleGraphBig)[k][i][j].ToString();
-					}
-					strBuf += "\n";
-				}
-			}
-			MessageBox::Show(strBuf);
-		}
-		private: System::Void button11_Click(System::Object^ sender, System::EventArgs^ e) {
-			String^ strBuf;
-			for (int i = 0; i < this->graphSmall->size(); i++)
-			{
-				for (int j = 0; j < (*this->graphSmall)[i].size(); j++)
-				{
-					strBuf += (*this->graphSmall)[i][j].ToString();
-				}
-				strBuf += "\n";
-			}
-			MessageBox::Show(strBuf);
-		}
-		private: System::Void button12_Click(System::Object^ sender, System::EventArgs^ e) {
-			String^ strBuf;
-			for (int k = 0; k < (*sampleGraphSmall).size(); k++)
-			{
-				strBuf += k;
-				strBuf += "\n";
-				for (int i = 0; i < (*sampleGraphSmall)[k].size(); i++)
-				{
-					for (int j = 0; j < (*sampleGraphSmall)[k][i].size(); j++)
-					{
-						strBuf += (*sampleGraphSmall)[k][i][j].ToString();
-					}
-					strBuf += "\n";
-				}
-			}
-			MessageBox::Show(strBuf);
-		}
 
-
+		private: System::Void textBox5_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+			this->isomorphCount = std::stoi(Convert_String_to_string(this->textBox5->Text));
+		}
+		private: System::Void checkedListBox1_Leave(System::Object^ sender, System::EventArgs^ e) {
+			for (int i = 0; i < this->checkedListBox1->CheckedIndices->Count; i++)
+			{
+				(*this->methodsEnableList)[this->checkedListBox1->CheckedIndices[i]] = 1;
+			}
+		}
 
 
 		//data grid view 2
@@ -889,34 +869,82 @@ namespace DotNet2 {
 			this->dataGridView2->Update();
 		}
 	
+		private: System::Void âûõîäToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 
+		//DEBUG
 		private: System::Void button13_Click(System::Object^ sender, System::EventArgs^ e) {
 			return System::Void();
 		}
 		private: System::Void button14_Click(System::Object^ sender, System::EventArgs^ e) {
 			MessageBox::Show(this->isomorphCount.ToString());
 		}
-		private: System::Void textBox5_TextChanged(System::Object^ sender, System::EventArgs^ e) {
-			this->isomorphCount = std::stoi(Convert_String_to_string(this->textBox5->Text));
-		}
 		private: System::Void button15_Click(System::Object^ sender, System::EventArgs^ e) {
-			
 			String^ strBuf;
-
-
 			for (int j = 0; j < (*this->methodsEnableList).size(); j++)
 			{
 				strBuf += (*this->methodsEnableList)[j].ToString();
 				strBuf += " ";
 			}
-
 			MessageBox::Show(strBuf);
 		}
-private: System::Void checkedListBox1_Leave(System::Object^ sender, System::EventArgs^ e) {
-	for (int i = 0; i < this->checkedListBox1->CheckedIndices->Count; i++)
-	{
-		(*this->methodsEnableList)[this->checkedListBox1->CheckedIndices[i]] = 1;
-	}
-}
+		private: System::Void button9_Click(System::Object^ sender, System::EventArgs^ e) {
+			String^ strBuf;
+			for (int i = 0; i < this->graphBig->size(); i++)
+			{
+				for (int j = 0; j < (*this->graphBig)[i].size(); j++)
+				{
+					strBuf += (*this->graphBig)[i][j].ToString();
+				}
+				strBuf += "\n";
+			}
+			MessageBox::Show(strBuf);
+		}
+		private: System::Void button10_Click(System::Object^ sender, System::EventArgs^ e) {
+			String^ strBuf;
+			for (int k = 0; k < (*sampleGraphBig).size(); k++)
+			{
+				strBuf += k;
+				strBuf += "\n";
+				for (int i = 0; i < (*sampleGraphBig)[k].size(); i++)
+				{
+					for (int j = 0; j < (*sampleGraphBig)[k][i].size(); j++)
+					{
+						strBuf += (*sampleGraphBig)[k][i][j].ToString();
+					}
+					strBuf += "\n";
+				}
+			}
+			MessageBox::Show(strBuf);
+		}
+		private: System::Void button11_Click(System::Object^ sender, System::EventArgs^ e) {
+			String^ strBuf;
+			for (int i = 0; i < this->graphSmall->size(); i++)
+			{
+				for (int j = 0; j < (*this->graphSmall)[i].size(); j++)
+				{
+					strBuf += (*this->graphSmall)[i][j].ToString();
+				}
+				strBuf += "\n";
+			}
+			MessageBox::Show(strBuf);
+		}
+		private: System::Void button12_Click(System::Object^ sender, System::EventArgs^ e) {
+			String^ strBuf;
+			for (int k = 0; k < (*sampleGraphSmall).size(); k++)
+			{
+				strBuf += k;
+				strBuf += "\n";
+				for (int i = 0; i < (*sampleGraphSmall)[k].size(); i++)
+				{
+					for (int j = 0; j < (*sampleGraphSmall)[k][i].size(); j++)
+					{
+						strBuf += (*sampleGraphSmall)[k][i][j].ToString();
+					}
+					strBuf += "\n";
+				}
+			}
+			MessageBox::Show(strBuf);
+		}
+		
 };
 }

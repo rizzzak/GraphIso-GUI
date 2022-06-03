@@ -27,3 +27,6 @@ System::Void DotNet2::MenuForm::button2_Click(System::Object^ sender, System::Ev
 {
 	Application::Exit();
 }
+System::Void DotNet2::MenuForm::‚˚ıÓ‰ToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+	Application::Exit();
+}
