@@ -126,7 +126,15 @@
     <ClCompile Include="FormMeta.cpp" />
     <ClCompile Include="FormResults.cpp" />
     <ClCompile Include="FormSampleData.cpp" />
+    <ClCompile Include="FullMethod.cpp" />
+    <ClCompile Include="GreedMethod.cpp" />
     <ClCompile Include="MenuForm.cpp" />
+    <ClCompile Include="MetaMethodBase.cpp" />
+    <ClCompile Include="MethodBase.cpp" />
+    <ClCompile Include="RandomMethod.cpp" />
+    <ClCompile Include="RWMethod.cpp" />
+    <ClCompile Include="SAMethod.cpp" />
+    <ClCompile Include="supervisor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConvertFunctions.h" />
@@ -142,9 +150,17 @@
     <ClInclude Include="FormSampleData.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="FullMethod.h" />
+    <ClInclude Include="GreedMethod.h" />
     <ClInclude Include="MenuForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="MetaMethodBase.h" />
+    <ClInclude Include="MethodBase.h" />
+    <ClInclude Include="RandomMethod.h" />
+    <ClInclude Include="RWMethod.h" />
+    <ClInclude Include="SAMethod.h" />
+    <ClInclude Include="supervisor.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="FormAnalysis.resx">

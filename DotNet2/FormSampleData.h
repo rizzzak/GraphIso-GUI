@@ -27,6 +27,7 @@ namespace DotNet2 {
 			graphSmall = new std::vector<std::vector<int>>();
 			cellPaintedHistory = new std::vector<int>();
 			methodsEnableList = new std::vector<int>();
+			density = 0.;
 		}
 
 	protected:
@@ -94,11 +95,15 @@ namespace DotNet2 {
 		std::vector<int>* customerInEdit;
 		std::vector<int>* customerInEdit2;
 		std::vector<int>* methodsEnableList;
+		double density;
+		int iterationLimit;
 
 		std::vector<std::string>* userActionsHistory;
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
 	private: System::Windows::Forms::ToolStripMenuItem^ выходToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ оПрограммеToolStripMenuItem;
+	private: System::Windows::Forms::TextBox^ textBox6;
+	private: System::Windows::Forms::Label^ label10;
 
 
 		   std::vector<int>* cellPaintedHistory;
@@ -148,6 +153,8 @@ namespace DotNet2 {
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->выходToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->оПрограммеToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->textBox6 = (gcnew System::Windows::Forms::TextBox());
+			this->label10 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->BeginInit();
 			this->menuStrip1->SuspendLayout();
@@ -524,11 +531,30 @@ namespace DotNet2 {
 			this->оПрограммеToolStripMenuItem->Size = System::Drawing::Size(94, 20);
 			this->оПрограммеToolStripMenuItem->Text = L"О программе";
 			// 
+			// textBox6
+			// 
+			this->textBox6->Location = System::Drawing::Point(732, 241);
+			this->textBox6->Name = L"textBox6";
+			this->textBox6->Size = System::Drawing::Size(30, 20);
+			this->textBox6->TabIndex = 37;
+			this->textBox6->TextChanged += gcnew System::EventHandler(this, &FormSampleData::textBox6_TextChanged);
+			// 
+			// label10
+			// 
+			this->label10->AutoSize = true;
+			this->label10->Location = System::Drawing::Point(705, 225);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(90, 13);
+			this->label10->TabIndex = 38;
+			this->label10->Text = L"Лимит итераций";
+			// 
 			// FormSampleData
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(820, 525);
+			this->Controls->Add(this->label10);
+			this->Controls->Add(this->textBox6);
 			this->Controls->Add(this->button15);
 			this->Controls->Add(this->button14);
 			this->Controls->Add(this->button13);
@@ -723,16 +749,6 @@ namespace DotNet2 {
 			if (this->sampleGraphSmall->size() > this->selectedGraphPair)
 				(*this->sampleGraphSmall)[this->selectedGraphPair] = (*this->graphSmall);
 			this->selectedGraphPair = this->listBox1->SelectedIndex;
-			/*String^ strBuf;
-			for (int i = 0; i < (*sampleGraphBig)[selectedGraphPair].size(); i++)
-			{
-				for (int j = 0; j < (*sampleGraphBig)[selectedGraphPair][i].size(); j++)
-				{
-					strBuf += (*sampleGraphBig)[selectedGraphPair][i][j].ToString();
-				}
-				strBuf += "\n";
-			}
-			MessageBox::Show(strBuf);*/
 			graphBig = &((*this->sampleGraphBig)[selectedGraphPair]);
 			this->dataGridView1->RowCount = graphBig->size() + 1;
 			this->dataGridView1->ColumnCount = graphBig->size();
@@ -799,6 +815,69 @@ namespace DotNet2 {
 			this->dataGridView2->ColumnCount++;
 			this->dataGridView2->RowCount++;
 			this->dataGridView2->Update();
+		}
+		private: std::vector<std::vector<int>> buildGraphFromP(std::vector<int> p, std::vector<std::vector<int>> source)
+		{
+			std::vector<std::vector<int>> graph;
+			std::vector<int> graphVertix;
+			for (int i = 0; i < p.size(); i++)
+			{
+				graphVertix.push_back(0);
+			}
+			for (int i = 0; i < p.size(); i++)
+			{
+				for (int j = 0; j < p.size(); j++)
+				{
+					graphVertix[j] = source[p[i]][p[j]];
+				}
+				graph.push_back(graphVertix);
+			}
+			return graph;
+		}
+		private: std::vector<std::vector<int>> shuffleVertixes(std::vector<std::vector<int>>& smallGraph) {
+			std::vector<int> perestanovka, availableVertixes;
+			int r;
+			
+			//получить случайную перестановку +
+			for (int i = 0; i < smallGraph.size(); i++) availableVertixes.push_back(i);
+			while (availableVertixes.size() != 0)
+			{
+				r = rand() % availableVertixes.size();
+				perestanovka.push_back(availableVertixes[r]);
+				availableVertixes.erase(availableVertixes.begin() + r);
+			}
+			//построить матрицу по перестановке
+			return buildGraphFromP(perestanovka, smallGraph);
+
+			
+		}
+		private: std::vector<std::vector<int>> buildBigGraphIsomorph(std::vector<std::vector<int>>& smallGraph, int bigSize)
+		{
+
+			std::vector<std::vector<int>> bigGraph = shuffleVertixes(smallGraph);
+			std::vector<int> bigGraphNewRow;
+			
+			//вставить необходимое число вершин на случайные места
+			int deltaSize = bigSize - smallGraph.size();
+			for (int i = 0; i < deltaSize; i++)
+			{
+				int randPos = rand() % smallGraph.size();
+				for (int j = 0; j < smallGraph.size()+i+1; j++)
+					if (j != randPos)
+						bigGraphNewRow.push_back(rand() % 2);
+					else
+						bigGraphNewRow.push_back(0);
+				for (int j = 0; j < bigGraphNewRow.size(); j++)
+				{
+					if (j > randPos)
+						bigGraph[j - 1].insert(bigGraph[j - 1].begin() + randPos, bigGraphNewRow[j]);
+					else if (j < randPos)
+						bigGraph[j].insert(bigGraph[j].begin() + randPos, bigGraphNewRow[j]);
+				}
+				bigGraph.insert(bigGraph.begin() + randPos, bigGraphNewRow);
+				bigGraphNewRow.clear();
+			}
+			return bigGraph;
 		}
 		private: System::Void dataGridView2_RowValidated(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 			// Save row changes if any were made and release the edited
@@ -946,5 +1025,8 @@ namespace DotNet2 {
 			MessageBox::Show(strBuf);
 		}
 		
+		private: System::Void textBox6_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+			this->iterationLimit = std::stoi(Convert_String_to_string(this->textBox6->Text)) - 1;
+		}
 };
 }

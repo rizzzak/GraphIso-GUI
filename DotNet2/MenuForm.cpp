@@ -7,7 +7,7 @@ using namespace System::Windows::Forms;
 [STAThreadAttribute]
 void main(array<String^>^ args)
 {
-	
+	srand(time(0));
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 

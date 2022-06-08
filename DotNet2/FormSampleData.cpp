@@ -62,7 +62,6 @@ System::Void DotNet2::FormSampleData::выходToolStripMenuItem_Click(System::Objec
 //добавить пару графов в список
 System::Void DotNet2::FormSampleData::button1_Click(System::Object^ sender, System::EventArgs^ e)
 {
-
     //добавить строчку в список
     listBox1->Items->Add("Пара "+ (listBox1->Items->Count + 1));
     this->selectedGraphPair = listBox1->Items->Count - 1;
@@ -90,31 +89,13 @@ System::Void DotNet2::FormSampleData::button2_Click(System::Object^ sender, Syst
 {
     //считать номер редактируемую пару
     //перезаписать на него пару
-    if (this->listBox1->SelectedIndex < 0) return;
-    (*this->sampleGraphBig)[this->selectedGraphPair] = (*this->graphBig);
-    (*this->sampleGraphSmall)[this->selectedGraphPair] = (*this->graphSmall);
-    MessageBox::Show("Saved");
 
-    //std::vector<int> graphRow;
-    ////считывание матриц
-    //int graphSize;
-    //for (int i = 0; i < ; i++)
-    //{
-    //    dataGridView1->ColumnCount = sampleGraphBig->back().size();
-    //    for (int j = 0; j < sampleGraphBig->back().size(); j++)
-    //    {
-    //        //dataGridView1->Column
-    //    }
-    //    dataGridView1->Rows->Add();
-    //    for (int j = 0; j < sampleGraphBig->back()[i].size(); j++)
-    //    {
-    //        strBuf += sampleGraphBig->back()[i][j].ToString();
-    //        String^ bufStr = sampleGraphBig->back()[i][j].ToString();
-    //        dataGridView1->Rows[i]->Cells[j]->Value = bufStr;
-    //    }
-    //    strBuf += "\n";
-    //}
-    //добавление в вектор
+    if (this->selectedGraphPair < this->sampleGraphBig->size())
+    {
+        (*this->sampleGraphBig)[this->selectedGraphPair] = (*this->graphBig);
+        (*this->sampleGraphSmall)[this->selectedGraphPair] = (*this->graphSmall);
+        MessageBox::Show("Saved");
+    }
     return System::Void();
 }
 //удалить пару графов из выборки
@@ -136,10 +117,10 @@ System::Void DotNet2::FormSampleData::button4_Click(System::Object^ sender, Syst
     Convert_String_to_string(textBox3->Text->ToString(), densityStr); //density
     Convert_String_to_string(textBox4->Text->ToString(), sizeOfSampleStr); //density
     int graphASize, graphBSize, sizeOfSample;
-    float density;
+    //float density;
     graphASize = std::stoi(graphASizeStr);
     graphBSize = std::stoi(graphBSizeStr);
-    density = std::stof(densityStr);
+    this->density = std::stof(densityStr);
     sizeOfSample = std::stoi(sizeOfSampleStr);
 
     //валидация введенных данных
@@ -168,8 +149,10 @@ System::Void DotNet2::FormSampleData::button4_Click(System::Object^ sender, Syst
 
     for (int i = 0; i < sizeOfSample; i++)
     {
-        graphBig = new std::vector<std::vector<int>>(genGraphWithDensity(graphASize, density));
         graphSmall = new std::vector<std::vector<int>>(genGraphWithDensity(graphBSize, density));
+        graphBig = new std::vector<std::vector<int>>(buildBigGraphIsomorph(*graphSmall,graphASize));
+        
+        
         sampleGraphBig->push_back(*graphBig);
         sampleGraphSmall->push_back(*graphSmall);
         listBox1->Items->Add("Пара " + (i + 1));
@@ -208,11 +191,13 @@ System::Void DotNet2::FormSampleData::button4_Click(System::Object^ sender, Syst
 //импорт выборки
 System::Void DotNet2::FormSampleData::button5_Click(System::Object^ sender, System::EventArgs^ e)
 {
+    MessageBox::Show("TO DO");
     return System::Void();
 }
 //экспорт выборки
 System::Void DotNet2::FormSampleData::button6_Click(System::Object^ sender, System::EventArgs^ e)
 {
+    MessageBox::Show("TO DO");
     return System::Void();
 }
 //переход к метаоптимизации
@@ -225,7 +210,7 @@ System::Void DotNet2::FormSampleData::button7_Click(System::Object^ sender, Syst
 //переход к анализу
 System::Void DotNet2::FormSampleData::button8_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    FormAnalysis^ formAnalysis = gcnew FormAnalysis(*sampleGraphBig, *sampleGraphSmall);
+    FormAnalysis^ formAnalysis = gcnew FormAnalysis(*sampleGraphBig, *sampleGraphSmall, methodsEnableList, isomorphCount, density, iterationLimit);
     this->Hide();
     formAnalysis->Show();
 }
