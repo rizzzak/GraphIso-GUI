@@ -203,14 +203,14 @@ System::Void DotNet2::FormSampleData::button6_Click(System::Object^ sender, Syst
 //переход к метаоптимизации
 System::Void DotNet2::FormSampleData::button7_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    FormMeta^ formMeta = gcnew FormMeta();
+    FormMeta^ formMeta = gcnew FormMeta(*sampleGraphBig, *sampleGraphSmall, methodsEnableList, iterationLimit, isomorphCount);
     this->Hide();
     formMeta->Show();
 }
 //переход к анализу
 System::Void DotNet2::FormSampleData::button8_Click(System::Object^ sender, System::EventArgs^ e)
 {
-    FormAnalysis^ formAnalysis = gcnew FormAnalysis(*sampleGraphBig, *sampleGraphSmall, methodsEnableList, isomorphCount, density, iterationLimit);
+    FormAnalysis^ formAnalysis = gcnew FormAnalysis(*sampleGraphBig, *sampleGraphSmall, methodsEnableList, iterationLimit, isomorphCount);
     this->Hide();
     formAnalysis->Show();
 }

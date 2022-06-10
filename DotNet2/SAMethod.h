@@ -5,26 +5,11 @@ class SAMethod :
     public MethodBase, public MetaMethodBase
 {
     public:
-        //методы
-        virtual void Close()
-        {
-            //outSA.close();
-            //outSAMeta.close();
-        }
-        virtual void Open()
-        {
-            //outSA.open("SA.csv");
-            //outSAMeta.open("SA Meta.csv");
-        }
-        virtual void DocHeader(int Delta, double D) { 
-            //outSA << "Delta = " << Delta << ", Density = " << D << "\smallSize"; 
-        }
-        virtual int Iteration(std::vector<std::vector<int>>& bigGraph, std::vector<std::vector<int>>& smallGraph, std::vector<std::vector<int>>& isoMatr, std::vector<int>& isoP) {
-            if (solutionsFound)
+        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, std::vector<std::vector<int>>& isoMatr, std::vector<int>& isoP) {
+            if (solutionsFound || iterationLimitExceed)
                 return 1;
-            
-            int bigSize = bigGraph.size();
-            int smallSize = smallGraph.size();
+            int bigSize = graphBig.size();
+            int smallSize = graphSmall.size();
             std::vector<int> shortPerestanovka;
             int localQOld = localQ;
             std::vector<int> pOld = p;
@@ -37,12 +22,9 @@ class SAMethod :
             std::swap(p[i], p[j]);
             for (int k = 0; k < smallSize; k++)
                 shortPerestanovka.push_back(p[k]);
-            std::vector<std::vector<int>> newGraph = buildGraphFromP(shortPerestanovka, bigGraph);
-            localQ = compareTables(newGraph, smallGraph, smallSize);
-            (*iterationCounter)++;
-
+            std::vector<std::vector<int>> newGraph = buildGraphFromP(shortPerestanovka, graphBig);
+            localQ = compareTables(newGraph, graphSmall, smallSize);
             //мутация - случайный свап? вброс вершины вне мелкого графа в него на место случайной вершины?
-
             if (localQ >= localQOld)
             {
                 if (localQ > 0)
@@ -52,202 +34,131 @@ class SAMethod :
                     if (rk > f)
                         p = pOld;
                 }
-
             }
-            if (localMinQ > localQ)
-                localMinQ = localQ;
-            localAverageQ += localQ;
-            if (localQ == 0)
-                localProbability += 1.0;
-            
             // охлаждение()
             T *= Gamma;
-
-            if (localQ == 0)
-            {
-                //протоколирование перестановок-изоморфов
-                //cout << "\t\t\t\tМетод имитации отжига нашел ответ за " << iterationCounter << " итераций!\smallSize";
-                std::vector<int> shortPerestanovka;
-                for (int i = 0; i < smallGraph.size(); i++)
-                {
-                    shortPerestanovka.push_back(p[i]);
-                }
-                if (find(pSolutions.begin(), pSolutions.end(), shortPerestanovka) == pSolutions.end())
-                {
-                    /*cout << "\t\t\t\tИзоморфная перестановка:";
-                    for (int i = 0; i < smallGraph.size(); i++)
-                    {
-                        cout << " " << p[i];
-                    }
-                    cout << "\smallSize";*/
-                    isomorphsFoundCounter++;
-                    pSolutions.push_back(shortPerestanovka);
-                    isoMatr = buildGraphFromP(shortPerestanovka, bigGraph);
-                    isoP = shortPerestanovka;
-                }
-
-                //проверка условия окончания работы метода
-                if (isomorphsFoundCounter == isomorphsFoundGoal)
-                    solutionsFound = true;
-            }
+            (*iterationCounter)++;
+            this->MethodBase::iterationFinalization(graphBig, graphSmall, isoMatr, isoP);
             return 0;
         }
-        virtual void Init(int smallSize, int bigSize, int _goal, int* iterationCounter2)
-        {
-            std::vector<int> perestanovka;
-            localQ = smallSize * smallSize;
-            localMinQ = smallSize * smallSize;
-            for (int i = 0; i < bigSize; i++)
-            {
-                perestanovka.push_back(i);
-            }
-            p = perestanovka;
-            T = TStart;
-            localAverageQ = 0.;
-            localProbability = 0.;
-            iterationCounter = iterationCounter2;
-            solutionsCounter = 0;
-            solutionsFound = false;
-            pSolutions.clear();
-            isomorphsFoundCounter = 0;
-            isomorphsFoundGoal = _goal;
+        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, int& metaMinQ) {
+            if (solutionsFound || iterationLimitExceed)
+                return 1;
 
-            averageQ = 0.;
-            totalProbability = 0.;
-            dispersion = 0.;
-            sigma = 0.;
-            deltaQ = 0.;
-            localAverageQ = 0.;
-            localQ = 0.;
-            localProbability = 0.;
-            localMinQ = 0.;
-        }
-        virtual void FindLocalStats()
-        {
-            localAverageQ /= (*iterationCounter);
-            localProbability /= (*iterationCounter);
-            if (localProbability > 0.)
+            int bigSize = graphBig.size();
+            int smallSize = graphSmall.size();
+            std::vector<int> shortPerestanovka;
+            int localQOld = localQ;
+            std::vector<int> pOld = p;
+            int i = 1, j = 1;
+            while (i == j)
             {
-                totalProbability += 1.0;
-                vector_Q.push_back(0);
+                i = rand() % bigSize;
+                j = rand() % bigSize;
             }
-            else
+            std::swap(p[i], p[j]);
+            for (int k = 0; k < smallSize; k++)
+                shortPerestanovka.push_back(p[k]);
+            std::vector<std::vector<int>> newGraph = buildGraphFromP(shortPerestanovka, graphBig);
+            localQ = compareTables(newGraph, graphSmall, smallSize);
+            //мутация - случайный свап? вброс вершины вне мелкого графа в него на место случайной вершины?
+            if (localQ >= localQOld)
             {
-                vector_Q.push_back(localMinQ);
-            }
-        }
-        virtual void FindGlobalStats(int sizeOfSample)
-        {
-            totalProbability /= sizeOfSample;
-            for (int i = 0; i < vector_Q.size(); i++)
-            {
-                averageQ += vector_Q[i];
-            }
-            averageQ /= sizeOfSample;
-            for (int i = 0; i < vector_Q.size(); i++)
-            {
-                dispersion += pow((vector_Q[i] - averageQ), 2);
-            }
-            dispersion /= sizeOfSample;
-            sigma = sqrt(dispersion);
-            deltaQ = 1.96 * sigma / sqrt(sizeOfSample);
-            Doc();
-        }
-        virtual void ClearingTotal()
-        {
-            vector_Q.clear();
-            totalProbability = 0;
-            averageQ = 0;
-            dispersion = 0;
-        }
-        
-        virtual void meta(std::vector<std::vector<int>>& bigGraph, std::vector<std::vector<int>>& smallGraph)
-        {
-            std::vector<double> totalMinQSAMO;
-            int smallSize = smallGraph.size();
-            int bigSize = bigGraph.size();
-            DocHeaderMeta();
-            //cout << "\smallSize SA Meta: ";
-            for (TStart = 1; TStart < 1024; TStart *= 2)
-            {
-
-                for (Gamma = 0.1; Gamma < 1.1; Gamma += 0.1)
+                if (localQ > 0)
                 {
-                    //cout << "\smallSizeТемпература=" << TStart << ", гамма=" << Gamma << ": ";
-                    Init(smallSize, bigSize, 1, int(0));
-                    //while (!Iteration(bigGraph, smallGraph)) {}
-                    FindLocalStats();
-                    DocMeta(TStart, Gamma, (*iterationCounter));
-                    metaIterationCount.push_back(*iterationCounter);
-                    //cout << "x";
-                }
-                //cout << "\smallSize";
-            }
-            int minElementIndex = 0;
-            int tempMinIterationCount = 9999;
-            for (int i = 0; i < metaIterationCount.size(); i++)
-            {
-                if (tempMinIterationCount > metaIterationCount[i])
-                {
-                    tempMinIterationCount = metaIterationCount[i];
-                    minElementIndex = i;
+                    double f = exp(localQ / T);
+                    double rk = rand() / (double)RAND_MAX;
+                    if (rk > f)
+                        p = pOld;
                 }
             }
-            metaIterationCount.clear();
+            // охлаждение()
+            T *= Gamma;
+            (*iterationCounter)++;
+            this->MethodBase::iterationFinalization(graphBig, graphSmall, metaMinQ);
+            return 0;
+        }
+        virtual void Init(int smallSize, int bigSize, int _goal, int* iterationCounter2, int _iterationLimit)
+        {
+            this->MethodBase::Init(smallSize, bigSize, _goal, iterationCounter2, _iterationLimit);
+        }
+        virtual std::vector<double> meta(std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
+            std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta,
+            int _iterationLimit, double& param_val_init, double& param_val_step, int parameterToOptimize = 0)
+        {
+            std::vector<double> sigs;
+            double param_val_end;
+            if (parameterToOptimize == 0)
+            {
+                param_val_step = 100;
+                param_val_init = 100;
+                param_val_end = 1000;
+            }
+            else if (parameterToOptimize == 1)
+            {
+                param_val_step = 0.05;
+                param_val_init = 0.05;
+                param_val_end = 1.0;
+            }
+            for (double param = param_val_init; param < param_val_end; param += param_val_step)
+            {
+                setParameter(parameterToOptimize, param);
+                double averageSig = 0;
+                for (int i = 0; i < sampleGraphBigMeta.size(); i++)
+                {
+                    double sigCurrent = 0;
+                    std::vector<std::vector<int>> graphBig = sampleGraphBigMeta[i];
+                    std::vector<std::vector<int>> graphSmall = sampleGraphSmallMeta[i];
+                    int bigSize = graphBig.size();
+                    int smallSize = graphSmall.size();
+                    int metaIterationCounter = 0;
+                    int metaMinQ = smallSize * smallSize;
+                    Init(smallSize, bigSize, 1, &metaIterationCounter, _iterationLimit);
+                    while (!Iteration(graphBig, graphSmall, metaMinQ)) {}
+                    if (metaMinQ == 0)
+                    {
+                        //sig += 1;
+                        sigCurrent += 1;
+                        sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2; // sig += 0..0.5 ~ 1/w(metaIterCntr)
+                    }
+                    else
+                    {
+                        sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2;
+                        sigCurrent = sigCurrent + (1 - metaMinQ / (smallSize * smallSize)) / 4; //sig += 0..0.25 ~ 1/w(minQ)
+                    }
+                    averageSig += sigCurrent;
 
-            //TODO НЕВЕРНО = 6 получилось
-            TStart = pow(2, ((minElementIndex - minElementIndex % 10) / 10));
-            Gamma = 0.1 + 0.1 * (minElementIndex % 10);
-
-            //cout << "\smallSize\smallSizeМетаоптимизация проведена, оптимальные значения настроечных параметров:";
-            //cout << "\smallSize\tНачальная температура = " << to_string(TStart);
-            //cout << "\smallSize\tКоэффициент остывания металла = " << to_string(Gamma) << "\smallSize";
+                }
+                averageSig /= sampleGraphBigMeta.size();
+                sigs.push_back(averageSig);
+            }
+            int bestSigIndex = 0;
+            double maxSig = 0.;
+            for (int i = 0; i < sigs.size(); i++)
+            {
+                if (sigs[i] > maxSig)
+                {
+                    maxSig = sigs[i];
+                    bestSigIndex = i;
+                }
+            }
+            setParameter(parameterToOptimize, param_val_init + bestSigIndex * param_val_step);
+            return sigs;
         }
         SAMethod() 
         {
+            T = 1000;
+            Gamma = 0.1;
         }
-        SAMethod(double tStart, double gamma) 
+        virtual void setParameter(int parameterNumber, double value)
         {
-            TStart = tStart; Gamma = gamma;
+            if (parameterNumber == 0)
+                T = value;
+            else if (parameterNumber == 1)
+                Gamma = value;
         }
         
     private:
-        virtual void Doc()
-        {
-            /*outSA << to_string(totalProbability) << ";";
-            outSA << to_string(averageQ) << ";";
-            outSA << to_string(dispersion) << ";";
-            outSA << to_string(sigma) << ";";
-            outSA << to_string(deltaQ) << ";";
-            outSA << "[" << to_string(averageQ - deltaQ) << "; " << to_string(averageQ + deltaQ) << "]\smallSize";*/
-        }
-        void DocHeaderMeta() {
-            //outSAMeta << "; ; итераций для получения изоморфа \smallSize";
-        }
-        void DocMeta(double tStart, double gamma, int iterationsCount) {
-            //outSAMeta << "T(start) = " << tStart << "; gamma = " << gamma << ";" << to_string(iterationsCount) << "\smallSize";
-        }
-        //данные
-        double averageQ;
-        std::vector<double> vector_Q;
-        double totalProbability;
-        double dispersion;
-        double sigma;
-        double deltaQ;
-        //local stats
-        double localAverageQ;
-        int localQ;
-        double localProbability;
-        int localMinQ;
-        std::vector<int> p;
-        int* iterationCounter;
-        int solutionsCounter;
-        bool solutionsFound;
-        int isomorphsFoundCounter;
-        int isomorphsFoundGoal;
-        std::vector<std::vector<int>> pSolutions;
-        std::vector<int> metaIterationCount;
-        double T;
-        double TStart = 1000, Gamma = 0.1;
+        double T, Gamma;
 };
 

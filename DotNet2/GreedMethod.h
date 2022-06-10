@@ -50,6 +50,7 @@ public:
             localQ = bestQuality;
         checkedP.push_back(p);
         localQ = bestQuality;
+        (*iterationCounter) += ((bigSize * (bigSize - 1)) / 2); //за одну итерацию проверяется путей на половину таблицы
         this->MethodBase::iterationFinalization(bigGraph, smallGraph, isoMatr, isoP);
         return 0;
     }

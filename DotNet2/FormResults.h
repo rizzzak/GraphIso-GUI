@@ -19,12 +19,7 @@ namespace DotNet2 {
 	public:
 		FormResults(supervisor& _super, std::vector<int>& _mEF):super(_super), methodsEnableFlags(_mEF)
 		{
-			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
-		
-			
+			InitializeComponent();	
 		}
 
 	protected:
@@ -96,6 +91,7 @@ namespace DotNet2 {
 			this->button1->TabIndex = 2;
 			this->button1->Text = L"DEBUG";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Visible = false;
 			this->button1->Click += gcnew System::EventHandler(this, &FormResults::button1_Click);
 			// 
 			// FormResults
@@ -107,7 +103,7 @@ namespace DotNet2 {
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->dataGridView1);
 			this->Name = L"FormResults";
-			this->Text = L"FormResults";
+			this->Text = L"Поиск изоморфного подграфа - статистика работы методов";
 			this->Load += gcnew System::EventHandler(this, &FormResults::FormResults_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			this->ResumeLayout(false);

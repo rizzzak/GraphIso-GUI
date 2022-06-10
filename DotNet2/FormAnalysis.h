@@ -19,14 +19,13 @@ namespace DotNet2 {
 	public:
 		FormAnalysis(std::vector<std::vector<std::vector<int>> >& sampleGraphBig2,
 			std::vector<std::vector<std::vector<int>> >& sampleGraphSmall2,
-			std::vector<int>* methodsFlags, int isomorphsCntr, double _density, int _iterationLimit):
+			std::vector<int>* methodsFlags, int _iterationLimit, int isomorphsCntr):
 			sampleGraphBig(sampleGraphBig2), sampleGraphSmall(sampleGraphSmall2)
 		{
 			InitializeComponent();
 			RW_d_parameter = 0.3;
 			methodsEnableFlags = methodsFlags;
 			isomorphsFoundGoal = isomorphsCntr;
-			density = _density;
 			pairNumber = 0;
 			iterationLimit = _iterationLimit;
 		}
@@ -72,7 +71,6 @@ namespace DotNet2 {
 		int isomorphsFoundGoal = 0;
 		std::vector<int>* methodsEnableFlags;
 		double RW_d_parameter = 0;
-		double density;
 		supervisor* o_supervisor;
 		int pairNumber;
 		int iterationLimit;
@@ -96,7 +94,6 @@ namespace DotNet2 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(FormAnalysis::typeid));
 			this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 			this->dataGridView2 = (gcnew System::Windows::Forms::DataGridView());
 			this->dataGridView3 = (gcnew System::Windows::Forms::DataGridView());
@@ -334,7 +331,7 @@ namespace DotNet2 {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(1002, 24);
+			this->menuStrip1->Size = System::Drawing::Size(755, 24);
 			this->menuStrip1->TabIndex = 18;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -359,7 +356,7 @@ namespace DotNet2 {
 			this->dataGridView6->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->dataGridView6->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView6->ColumnHeadersVisible = false;
-			this->dataGridView6->Location = System::Drawing::Point(549, 57);
+			this->dataGridView6->Location = System::Drawing::Point(552, 57);
 			this->dataGridView6->Name = L"dataGridView6";
 			this->dataGridView6->ReadOnly = true;
 			this->dataGridView6->RowHeadersVisible = false;
@@ -401,6 +398,7 @@ namespace DotNet2 {
 			this->button10->TabIndex = 30;
 			this->button10->Text = L"вывод выборки SampleBig";
 			this->button10->UseVisualStyleBackColor = true;
+			this->button10->Visible = false;
 			this->button10->Click += gcnew System::EventHandler(this, &FormAnalysis::button10_Click);
 			// 
 			// button1
@@ -411,19 +409,19 @@ namespace DotNet2 {
 			this->button1->TabIndex = 31;
 			this->button1->Text = L"вывод выборки SampleSmall";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Visible = false;
 			this->button1->Click += gcnew System::EventHandler(this, &FormAnalysis::button1_Click);
 			// 
 			// button2
 			// 
-			this->button2->Font = (gcnew System::Drawing::Font(L"Segoe Print", 15.75F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
-				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			this->button2->ForeColor = System::Drawing::SystemColors::ButtonFace;
-			this->button2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"button2.Image")));
-			this->button2->Location = System::Drawing::Point(766, 200);
+			this->button2->Font = (gcnew System::Drawing::Font(L"Segoe Print", 14.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
+				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
+			this->button2->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->button2->Location = System::Drawing::Point(552, 299);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(236, 233);
+			this->button2->Size = System::Drawing::Size(182, 44);
 			this->button2->TabIndex = 32;
-			this->button2->Text = L"К РЕЗУЛЬТАТАМ";
+			this->button2->Text = L"Результаты";
 			this->button2->TextAlign = System::Drawing::ContentAlignment::BottomCenter;
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &FormAnalysis::button2_Click);
@@ -432,7 +430,7 @@ namespace DotNet2 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1002, 428);
+			this->ClientSize = System::Drawing::Size(755, 411);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->button10);
@@ -461,7 +459,7 @@ namespace DotNet2 {
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"FormAnalysis";
-			this->Text = L"FormAnalysis";
+			this->Text = L"Поиск изоморфного подграфа - анализ";
 			this->Load += gcnew System::EventHandler(this, &FormAnalysis::FormAnalysis_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->EndInit();
@@ -551,8 +549,8 @@ namespace DotNet2 {
 			//testInput();
 
 			int sizeOfSample = this->sampleGraphBig.size();
-			o_supervisor = new supervisor(RW_d_parameter, *methodsEnableFlags, isomorphsFoundGoal, iterationLimit);
-			o_supervisor->addPairs(this->sampleGraphSmall);
+			o_supervisor = new supervisor(*methodsEnableFlags, isomorphsFoundGoal, iterationLimit);
+			o_supervisor->fillSolutionsContainers(this->sampleGraphSmall);
 			//sizeOfSample = 1;
 			for (int i = 0; i < sizeOfSample; i++)
 			{

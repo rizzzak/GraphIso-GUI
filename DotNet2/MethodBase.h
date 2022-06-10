@@ -206,6 +206,14 @@ class MethodBase
                     solutionsFound = true;
             }
         }
+        void iterationFinalization(std::vector<std::vector<int>>& bigGraph, std::vector<std::vector<int>>& smallGraph, int& metaMinQ)
+        {
+            (*iterationCounter)++;
+            if ((*iterationCounter) > iterationLimit)
+                iterationLimitExceed = true;
+            if (metaMinQ > localQ)
+                metaMinQ = localQ;
+        }
     protected:
         double averageQ;
         double probability;

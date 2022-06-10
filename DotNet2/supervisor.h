@@ -95,11 +95,19 @@ public:
             (*a)->FindGlobalStats(sizeOfSample);
     }
     
-    void MetaoptimizationAll(std::vector<std::vector<int>>& tableBig, std::vector<std::vector<int>>& tableSmall) {
-        for (std::vector<MetaMethodBase*>::iterator a = metaMethodsList.begin(); a < metaMethodsList.end(); a++)
-            (*a)->meta(tableBig, tableSmall, iterationLimit);
+    std::vector<double> Metaoptimization(int methodNumber, std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
+        std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, double& param_val_init, double& param_val_step, int parameterToOptimize) {
+        //метод возвращает вектор сигнатур оптимизируемого метода для построения графиков
+        std::vector<double> sigs;
+        sigs = metaMethodsList[methodNumber]->meta(sampleGraphBigMeta, sampleGraphSmallMeta, 
+            iterationLimit, param_val_init, param_val_step, parameterToOptimize);
+        return sigs;
     }
-    supervisor(double d, std::vector<int> methodsEnableFlags, int _goal, int _iterationLimit)
+    void setParameterInMethod(int methodNumber, int parameter, double value)
+    {
+        metaMethodsList[methodNumber]->setParameter(parameter, value);
+    }
+    supervisor(std::vector<int> methodsEnableFlags, int _goal, int _iterationLimit)
     {
         goal = _goal;
         pairNumber = -1;
@@ -133,19 +141,21 @@ public:
             }
             else if (i == 3 && methodsEnableFlags[i] == 1)
             {
-                RWMethod* rwm = new RWMethod(d);
+                RWMethod* rwm = new RWMethod();
                 methodList.push_back(rwm);
                 metaMethodsList.push_back(rwm);
+                rwm->setMethodName("Случайный взвешенный перебор");
             }
             else if (i == 4 && methodsEnableFlags[i] == 1)
             {
-               // SAMethod* sam = new SAMethod();
-                //methodList.push_back(sam);
-               // metaMethodsList.push_back(sam);
+               SAMethod* sam = new SAMethod();
+               methodList.push_back(sam);
+               metaMethodsList.push_back(sam);
+               sam->setMethodName("Метод имитации отжига");
             }
         }
     }
-    void addPairs(std::vector<std::vector<std::vector<int>> >& sampleGraphSmall)
+    void fillSolutionsContainers(std::vector<std::vector<std::vector<int>> >& sampleGraphSmall)
     {
         for (int i = 0; i < sampleGraphSmall.size(); i++)
         {
@@ -173,6 +183,10 @@ public:
     }
     int getMethodCount() {
         return methodList.size();
+    }
+    std::string getMetaMethodName(int metaMethodNumber)
+    {
+        return metaMethodsList[metaMethodNumber]->getMethodName();
     }
 private:
     std::vector<MethodBase*> methodList;

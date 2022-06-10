@@ -280,6 +280,7 @@ namespace DotNet2 {
 			this->button5->TabIndex = 13;
 			this->button5->Text = L"import";
 			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Visible = false;
 			this->button5->Click += gcnew System::EventHandler(this, &FormSampleData::button5_Click);
 			// 
 			// button6
@@ -290,25 +291,26 @@ namespace DotNet2 {
 			this->button6->TabIndex = 14;
 			this->button6->Text = L"export";
 			this->button6->UseVisualStyleBackColor = true;
+			this->button6->Visible = false;
 			this->button6->Click += gcnew System::EventHandler(this, &FormSampleData::button6_Click);
 			// 
 			// button7
 			// 
 			this->button7->Location = System::Drawing::Point(684, 414);
 			this->button7->Name = L"button7";
-			this->button7->Size = System::Drawing::Size(100, 28);
+			this->button7->Size = System::Drawing::Size(124, 28);
 			this->button7->TabIndex = 15;
-			this->button7->Text = L"Meta";
+			this->button7->Text = L"Метаоптимизация";
 			this->button7->UseVisualStyleBackColor = true;
 			this->button7->Click += gcnew System::EventHandler(this, &FormSampleData::button7_Click);
 			// 
 			// button8
 			// 
-			this->button8->Location = System::Drawing::Point(684, 471);
+			this->button8->Location = System::Drawing::Point(695, 471);
 			this->button8->Name = L"button8";
 			this->button8->Size = System::Drawing::Size(100, 28);
 			this->button8->TabIndex = 16;
-			this->button8->Text = L"Analysis";
+			this->button8->Text = L"Поиск";
 			this->button8->UseVisualStyleBackColor = true;
 			this->button8->Click += gcnew System::EventHandler(this, &FormSampleData::button8_Click);
 			// 
@@ -444,6 +446,7 @@ namespace DotNet2 {
 			this->button9->TabIndex = 28;
 			this->button9->Text = L"Вывод GraphBig";
 			this->button9->UseVisualStyleBackColor = true;
+			this->button9->Visible = false;
 			this->button9->Click += gcnew System::EventHandler(this, &FormSampleData::button9_Click);
 			// 
 			// button10
@@ -454,6 +457,7 @@ namespace DotNet2 {
 			this->button10->TabIndex = 29;
 			this->button10->Text = L"вывод выборки SampleBig";
 			this->button10->UseVisualStyleBackColor = true;
+			this->button10->Visible = false;
 			this->button10->Click += gcnew System::EventHandler(this, &FormSampleData::button10_Click);
 			// 
 			// button11
@@ -464,6 +468,7 @@ namespace DotNet2 {
 			this->button11->TabIndex = 31;
 			this->button11->Text = L"Вывод GraphSmall";
 			this->button11->UseVisualStyleBackColor = true;
+			this->button11->Visible = false;
 			this->button11->Click += gcnew System::EventHandler(this, &FormSampleData::button11_Click);
 			// 
 			// button12
@@ -474,6 +479,7 @@ namespace DotNet2 {
 			this->button12->TabIndex = 32;
 			this->button12->Text = L"вывод выборки SampleSmall";
 			this->button12->UseVisualStyleBackColor = true;
+			this->button12->Visible = false;
 			this->button12->Click += gcnew System::EventHandler(this, &FormSampleData::button12_Click);
 			// 
 			// button13
@@ -484,6 +490,7 @@ namespace DotNet2 {
 			this->button13->TabIndex = 33;
 			this->button13->Text = L"DEBUG";
 			this->button13->UseVisualStyleBackColor = true;
+			this->button13->Visible = false;
 			this->button13->Click += gcnew System::EventHandler(this, &FormSampleData::button13_Click);
 			// 
 			// button14
@@ -494,6 +501,7 @@ namespace DotNet2 {
 			this->button14->TabIndex = 34;
 			this->button14->Text = L"IsoCnt\?";
 			this->button14->UseVisualStyleBackColor = true;
+			this->button14->Visible = false;
 			this->button14->Click += gcnew System::EventHandler(this, &FormSampleData::button14_Click);
 			// 
 			// button15
@@ -504,6 +512,7 @@ namespace DotNet2 {
 			this->button15->TabIndex = 35;
 			this->button15->Text = L"binary Vect\?";
 			this->button15->UseVisualStyleBackColor = true;
+			this->button15->Visible = false;
 			this->button15->Click += gcnew System::EventHandler(this, &FormSampleData::button15_Click);
 			// 
 			// menuStrip1
@@ -591,7 +600,7 @@ namespace DotNet2 {
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"FormSampleData";
-			this->Text = L"FormSampleData";
+			this->Text = L"Поиск изоморфного подграфа - данные выборки";
 			this->Load += gcnew System::EventHandler(this, &FormSampleData::FormSampleData_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->EndInit();

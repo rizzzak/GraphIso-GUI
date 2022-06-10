@@ -18,9 +18,6 @@ namespace DotNet2 {
 		MenuForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: добавьте код конструктора
-			//
 		}
 
 	protected:
@@ -121,7 +118,7 @@ namespace DotNet2 {
 			this->MinimumSize = System::Drawing::Size(275, 168);
 			this->Name = L"MenuForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterParent;
-			this->Text = L"MenuForm";
+			this->Text = L"Поиск изоморфного подграфа - меню";
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			this->ResumeLayout(false);
