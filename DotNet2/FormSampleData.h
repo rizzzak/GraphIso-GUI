@@ -20,12 +20,10 @@ namespace DotNet2 {
 			InitializeComponent();
 			customerInEdit = nullptr;
 			customerInEdit2 = nullptr;
-			userActionsHistory = new std::vector<std::string>();
 			sampleGraphBig = new std::vector<std::vector<std::vector<int>> >();
 			sampleGraphSmall = new std::vector<std::vector<std::vector<int>> >();
 			graphBig = new std::vector<std::vector<int>>();
 			graphSmall = new std::vector<std::vector<int>>();
-			cellPaintedHistory = new std::vector<int>();
 			methodsEnableList = new std::vector<int>();
 			density = 0.;
 		}
@@ -75,11 +73,17 @@ namespace DotNet2 {
 		private: System::Windows::Forms::Button^ button13;
 		private: System::Windows::Forms::Button^ button14;
 		private: System::Windows::Forms::Button^ button15;
+		private: System::Windows::Forms::MenuStrip^ menuStrip1;
+		private: System::Windows::Forms::ToolStripMenuItem^ âûõîäToolStripMenuItem;
+		private: System::Windows::Forms::ToolStripMenuItem^ îÏğîãğàììåToolStripMenuItem;
+		private: System::Windows::Forms::TextBox^ textBox6;
+		private: System::Windows::Forms::Label^ label10;
 
 
 
 
 	private:
+	
 		/// <summary>
 		/// Îáÿçàòåëüíàÿ ïåğåìåííàÿ êîíñòğóêòîğà.
 		/// </summary>
@@ -97,16 +101,7 @@ namespace DotNet2 {
 		std::vector<int>* methodsEnableList;
 		double density;
 		int iterationLimit;
-
-		std::vector<std::string>* userActionsHistory;
-	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^ âûõîäToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ îÏğîãğàììåToolStripMenuItem;
-	private: System::Windows::Forms::TextBox^ textBox6;
-	private: System::Windows::Forms::Label^ label10;
-
-
-		   std::vector<int>* cellPaintedHistory;
+	
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -623,7 +618,6 @@ namespace DotNet2 {
 	
 	
 		private: System::Void FormSampleData_Load(System::Object^ sender, System::EventArgs^ e) {
-			userActionsHistory->push_back("Loading...");
 			
 			this->dataGridView1->AutoSizeColumnsMode =
 				DataGridViewAutoSizeColumnsMode::AllCells;
@@ -717,7 +711,6 @@ namespace DotNet2 {
 				{
 					this->customerInEdit->push_back(0);
 				}
-			
 			}
 			else
 			{

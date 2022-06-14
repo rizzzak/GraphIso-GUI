@@ -572,12 +572,12 @@ namespace DotNet2 {
 				while (!o_supervisor->IterationAll(graphBig, graphSmall)) { 
 					//Repaint(*o_supervisor, pairNumber);
 				}
-				Repaint(*o_supervisor, pairNumber);
+				
 				o_supervisor->FindLocalStatsAll();
 			}
 			// 4. сбор глобальной статистики - результатов работы методов по выборке
 			o_supervisor->FindGlobalStatsAll(sizeOfSample); //incl. DocAll
-
+			Repaint(*o_supervisor, pairNumber);
 		}
 		private: System::Void PrintMatrixInDataGridView(System::Windows::Forms::DataGridView^ _dataGridView, std::vector<std::vector<int>>& matrix)
 		{

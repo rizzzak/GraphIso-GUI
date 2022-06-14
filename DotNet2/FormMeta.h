@@ -60,6 +60,13 @@ namespace DotNet2 {
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ chart1;
 	private: System::Windows::Forms::ListBox^ listBox1;
 	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::TextBox^ textBox4;
+	private: System::Windows::Forms::Label^ label8;
+	private: System::Windows::Forms::Button^ button4;
+	private: System::Windows::Forms::MenuStrip^ menuStrip1;
+	private: System::Windows::Forms::ToolStripMenuItem^ ‚˚ıÓ‰ToolStripMenuItem;
+	private: System::Windows::Forms::ToolStripMenuItem^ ÓœÓ„‡ÏÏÂToolStripMenuItem;
+	private: System::Windows::Forms::Button^ button3;
 
 	private:
 		System::ComponentModel::Container ^components;
@@ -73,13 +80,7 @@ namespace DotNet2 {
 		supervisor* super;
 		std::vector<int>* parametersCounts;
 		int metaSizeOfSample;
-	private: System::Windows::Forms::TextBox^ textBox4;
-	private: System::Windows::Forms::Label^ label8;
-	private: System::Windows::Forms::Button^ button4;
-	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^ ‚˚ıÓ‰ToolStripMenuItem;
-	private: System::Windows::Forms::ToolStripMenuItem^ ÓœÓ„‡ÏÏÂToolStripMenuItem;
-	private: System::Windows::Forms::Button^ button3;
+	
 		
 
 
@@ -91,10 +92,10 @@ namespace DotNet2 {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea3 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-			System::Windows::Forms::DataVisualization::Charting::Series^ series3 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
-			System::Windows::Forms::DataVisualization::Charting::Title^ title5 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
-			System::Windows::Forms::DataVisualization::Charting::Title^ title6 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+			System::Windows::Forms::DataVisualization::Charting::Title^ title1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
+			System::Windows::Forms::DataVisualization::Charting::Title^ title2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Title());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -269,36 +270,36 @@ namespace DotNet2 {
 			// 
 			// chart1
 			// 
-			chartArea3->Name = L"ChartArea1";
-			this->chart1->ChartAreas->Add(chartArea3);
+			chartArea1->Name = L"ChartArea1";
+			this->chart1->ChartAreas->Add(chartArea1);
 			this->chart1->Location = System::Drawing::Point(136, 32);
 			this->chart1->Name = L"chart1";
-			series3->ChartArea = L"ChartArea1";
-			series3->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
-			series3->Color = System::Drawing::Color::Blue;
-			series3->Legend = L"Legend1";
-			series3->Name = L"Series1";
-			this->chart1->Series->Add(series3);
+			series1->ChartArea = L"ChartArea1";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+			series1->Color = System::Drawing::Color::Blue;
+			series1->Legend = L"Legend1";
+			series1->Name = L"Series1";
+			this->chart1->Series->Add(series1);
 			this->chart1->Size = System::Drawing::Size(358, 228);
 			this->chart1->TabIndex = 12;
 			this->chart1->Text = L"chart1";
-			title5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic))));
-			title5->Name = L"OY";
-			title5->Position->Auto = false;
-			title5->Position->Height = 85;
-			title5->Position->X = 3;
-			title5->Position->Y = 4;
-			title5->Text = L"—Ë„Ì‡ÚÛ‡";
-			title5->TextOrientation = System::Windows::Forms::DataVisualization::Charting::TextOrientation::Rotated270;
-			title6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic))));
-			title6->Name = L"OX";
-			title6->Position->Auto = false;
-			title6->Position->Width = 30;
-			title6->Position->X = 39;
-			title6->Position->Y = 97;
-			title6->Text = L"œ‡‡ÏÂÚ";
-			this->chart1->Titles->Add(title5);
-			this->chart1->Titles->Add(title6);
+			title1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic))));
+			title1->Name = L"OY";
+			title1->Position->Auto = false;
+			title1->Position->Height = 85;
+			title1->Position->X = 3;
+			title1->Position->Y = 4;
+			title1->Text = L"—Ë„Ì‡ÚÛ‡";
+			title1->TextOrientation = System::Windows::Forms::DataVisualization::Charting::TextOrientation::Rotated270;
+			title2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic))));
+			title2->Name = L"OX";
+			title2->Position->Auto = false;
+			title2->Position->Width = 30;
+			title2->Position->X = 39;
+			title2->Position->Y = 97;
+			title2->Text = L"œ‡‡ÏÂÚ";
+			this->chart1->Titles->Add(title1);
+			this->chart1->Titles->Add(title2);
 			// 
 			// listBox1
 			// 
@@ -358,7 +359,6 @@ namespace DotNet2 {
 			this->button4->TabIndex = 18;
 			this->button4->Text = L"Debug";
 			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Visible = false;
 			this->button4->Click += gcnew System::EventHandler(this, &FormMeta::button4_Click);
 			// 
 			// menuStrip1
@@ -440,7 +440,7 @@ namespace DotNet2 {
 		}
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-		FormAnalysis^ formAnalysis = gcnew FormAnalysis(sampleGraphBig, sampleGraphSmall, methodsEnableList, isomorphCount, iterationLimit);
+		FormAnalysis^ formAnalysis = gcnew FormAnalysis(sampleGraphBig, sampleGraphSmall, methodsEnableList, iterationLimit, isomorphCount);
 		this->Hide();
 		formAnalysis->Show();
 	}
@@ -501,75 +501,75 @@ namespace DotNet2 {
 		
 	}
 	private: System::Void listBox1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (this->listBox1->SelectedIndex < 0) return;
-	selectedMethodIndex = this->listBox1->SelectedIndex;
-	if ((*parametersCounts)[selectedMethodIndex] == 1)
-	{
-		label5->Enabled = false;
-		label6->Enabled = false;
-		textBox2->Enabled = false;
-		textBox3->Enabled = false;
-		label5->Visible = false;
-		label6->Visible = false;
-		textBox2->Visible = false;
-		textBox3->Visible = false;
+		if (this->listBox1->SelectedIndex < 0) return;
+		selectedMethodIndex = this->listBox1->SelectedIndex;
+		if ((*parametersCounts)[selectedMethodIndex] == 1)
+		{
+			label5->Enabled = false;
+			label6->Enabled = false;
+			textBox2->Enabled = false;
+			textBox3->Enabled = false;
+			label5->Visible = false;
+			label6->Visible = false;
+			textBox2->Visible = false;
+			textBox3->Visible = false;
 
-	}
-	else if ((*parametersCounts)[selectedMethodIndex] == 2)
-	{
-		label5->Enabled = true;
-		label6->Enabled = false;
-		textBox2->Enabled = true;
-		textBox3->Enabled = false;
-		label5->Visible = true;
-		label6->Visible = false;
-		textBox2->Visible = true;
-		textBox3->Visible = false;
-	}
-	else if ((*parametersCounts)[selectedMethodIndex] == 3)
-	{
-		label5->Enabled = true;
-		label6->Enabled = true;
-		textBox2->Enabled = true;
-		textBox3->Enabled = true;
-		label5->Visible = true;
-		label6->Visible = true;
-		textBox2->Visible = true;
-		textBox3->Visible = true;
-	}
-	if (selectedMethodIndex == 0)
-	{
-		label4->Text = "D=";
-		label5->Text = "None";
-		label6->Text = "None";
-		textBox1->Clear();
-		textBox2->Clear();
-		textBox3->Clear();
-		radioButton1->Text = "D";
-		radioButton2->Text = "None";
-		radioButton3->Text = "None";
-		radioButton2->Enabled = false;
-		radioButton3->Enabled = false;
-		radioButton1->Checked = false;
+		}
+		else if ((*parametersCounts)[selectedMethodIndex] == 2)
+		{
+			label5->Enabled = true;
+			label6->Enabled = false;
+			textBox2->Enabled = true;
+			textBox3->Enabled = false;
+			label5->Visible = true;
+			label6->Visible = false;
+			textBox2->Visible = true;
+			textBox3->Visible = false;
+		}
+		else if ((*parametersCounts)[selectedMethodIndex] == 3)
+		{
+			label5->Enabled = true;
+			label6->Enabled = true;
+			textBox2->Enabled = true;
+			textBox3->Enabled = true;
+			label5->Visible = true;
+			label6->Visible = true;
+			textBox2->Visible = true;
+			textBox3->Visible = true;
+		}
+		if (selectedMethodIndex == 0)
+		{
+			label4->Text = "D=";
+			label5->Text = "None";
+			label6->Text = "None";
+			textBox1->Clear();
+			textBox2->Clear();
+			textBox3->Clear();
+			radioButton1->Text = "D";
+			radioButton2->Text = "None";
+			radioButton3->Text = "None";
+			radioButton2->Enabled = false;
+			radioButton3->Enabled = false;
+			radioButton1->Checked = false;
 
+		}
+		else if (selectedMethodIndex == 1)
+		{
+			label4->Text = "Tstart=";
+			label5->Text = "Gamma=";
+			label6->Text = "None";
+			textBox1->Clear();
+			textBox2->Clear();
+			textBox3->Clear();
+			radioButton1->Text = "Tstart";
+			radioButton2->Text = "Gamma";
+			radioButton3->Text = "None";
+			radioButton2->Enabled = true;
+			radioButton3->Enabled = false;
+			radioButton1->Checked = false;
+			radioButton2->Checked = false;
+		}
 	}
-	else if (selectedMethodIndex == 1)
-	{
-		label4->Text = "Tstart=";
-		label5->Text = "Gamma=";
-		label6->Text = "None";
-		textBox1->Clear();
-		textBox2->Clear();
-		textBox3->Clear();
-		radioButton1->Text = "Tstart";
-		radioButton2->Text = "Gamma";
-		radioButton3->Text = "None";
-		radioButton2->Enabled = true;
-		radioButton3->Enabled = false;
-		radioButton1->Checked = false;
-		radioButton2->Checked = false;
-	}
-}
 	private: System::Void textBox4_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		metaSizeOfSample += std::stoi(Convert_String_to_string(textBox4->Text));
 	}

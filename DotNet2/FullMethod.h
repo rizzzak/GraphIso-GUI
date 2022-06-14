@@ -27,7 +27,7 @@ public:
         
 
         if (localQ == smallGraph.size() * smallGraph.size())
-            solutionsFound = true; //последняя итерация ПП
+            noMorePossibleCombinations = true; //последняя итерация ПП
         else
         {
             this->MethodBase::iterationFinalization(bigGraph, smallGraph, isoMatr, isoP);

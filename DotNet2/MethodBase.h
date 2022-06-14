@@ -8,7 +8,6 @@ class MethodBase
             std::vector<std::vector<int>>& isoMatr, std::vector<int>& isoP) = 0;
         virtual void Init(int smallSize, int bigSize, int _goal, int* iterationCounter2, int _iterationLimit) {
             std::vector<int> perestanovka;
-            localQ = smallSize * smallSize;
             localMinQ = smallSize * smallSize;
             for (int i = 0; i < bigSize; i++)
             {
@@ -16,8 +15,6 @@ class MethodBase
             }
             p = perestanovka;
             localProbability = 0.;
-            solutionsCounter = 0;
-            solutionsFound = false;
             pSolutions.clear();
             isomorphsFoundCounter = 0;
             isomorphsFoundGoal = _goal;
@@ -27,6 +24,7 @@ class MethodBase
             sigma = 0.;
             deltaQ = 0.;
             localQ = 0.;
+            solutionsFound = false;
             iterationCounter = iterationCounter2;
             iterationLimit = _iterationLimit;
             iterationLimitExceed = false;

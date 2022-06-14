@@ -35,6 +35,7 @@ namespace DotNet2 {
 		}
 	private: System::Windows::Forms::DataGridView^ dataGridView1;
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Button^ button1;
 	protected:
 
 	private:
@@ -44,8 +45,7 @@ namespace DotNet2 {
 		System::ComponentModel::Container ^components;
 		
 		supervisor& super;
-	private: System::Windows::Forms::Button^ button1;
-		   std::vector<int>& methodsEnableFlags;
+		std::vector<int>& methodsEnableFlags;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -150,7 +150,7 @@ namespace DotNet2 {
 					else if (j == 3)
 						dataGridView1->Rows[i]->Cells[0]->Value = "Случайный-взвешенный перебор ";
 					else if (j == 4)
-						dataGridView1->Rows[i]->Cells[0]->Value = "!Полный перебор ";
+						dataGridView1->Rows[i]->Cells[0]->Value = "Метод имитации отжига ";
 					else if (j == 5)
 						dataGridView1->Rows[i]->Cells[0]->Value = "!Полный перебор ";
 					else if (j == 6)
