@@ -5,158 +5,18 @@ class SAMethod :
     public MethodBase, public MetaMethodBase
 {
     public:
-        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, std::vector<std::vector<int>>& isoMatr, std::vector<int>& isoP) {
-            if (solutionsFound || iterationLimitExceed)
-                return 1;
-            int bigSize = graphBig.size();
-            int smallSize = graphSmall.size();
-            std::vector<int> shortPerestanovka;
-            int localQOld = localQ;
-            std::vector<int> pOld = p;
-            int i = 1, j = 1;
-            while (i == j)
-            {
-                i = rand() % bigSize;
-                j = rand() % bigSize;
-            }
-            std::swap(p[i], p[j]);
-            for (int k = 0; k < smallSize; k++)
-                shortPerestanovka.push_back(p[k]);
-            std::vector<std::vector<int>> newGraph = buildGraphFromP(shortPerestanovka, graphBig);
-            localQ = compareTables(newGraph, graphSmall, smallSize);
-            //мутация - случайный свап? вброс вершины вне мелкого графа в него на место случайной вершины?
-            if (localQ >= localQOld)
-            {
-                if (localQ > 0)
-                {
-                    double f = exp(localQ / T);
-                    double rk = rand() / (double)RAND_MAX;
-                    if (rk > f)
-                        p = pOld;
-                }
-            }
-            // охлаждение()
-            T *= Gamma;
-            (*iterationCounter)++;
-            this->MethodBase::iterationFinalization(graphBig, graphSmall, isoMatr, isoP);
-            return 0;
-        }
-        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, int& metaMinQ) {
-            if (solutionsFound || iterationLimitExceed)
-                return 1;
-
-            int bigSize = graphBig.size();
-            int smallSize = graphSmall.size();
-            std::vector<int> shortPerestanovka;
-            int localQOld = localQ;
-            std::vector<int> pOld = p;
-            int i = 1, j = 1;
-            while (i == j)
-            {
-                i = rand() % bigSize;
-                j = rand() % bigSize;
-            }
-            std::swap(p[i], p[j]);
-            for (int k = 0; k < smallSize; k++)
-                shortPerestanovka.push_back(p[k]);
-            std::vector<std::vector<int>> newGraph = buildGraphFromP(shortPerestanovka, graphBig);
-            localQ = compareTables(newGraph, graphSmall, smallSize);
-            //мутация - случайный свап? вброс вершины вне мелкого графа в него на место случайной вершины?
-            if (localQ >= localQOld)
-            {
-                if (localQ > 0)
-                {
-                    double f = exp(localQ / T);
-                    double rk = rand() / (double)RAND_MAX;
-                    if (rk > f)
-                        p = pOld;
-                }
-            }
-            // охлаждение()
-            T *= Gamma;
-            (*iterationCounter)++;
-            this->MethodBase::iterationFinalization(graphBig, graphSmall, metaMinQ);
-            return 0;
-        }
-        virtual void Init(int smallSize, int bigSize, int _goal, int* iterationCounter2, int _iterationLimit)
-        {
-            this->MethodBase::Init(smallSize, bigSize, _goal, iterationCounter2, _iterationLimit);
-        }
+        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, std::vector<std::vector<int>>& isoMatr, std::vector<int>& isoP);
+        virtual int Iteration(std::vector<std::vector<int>>& graphBig, std::vector<std::vector<int>>& graphSmall, int& metaMinQ);
+        virtual void Init(int smallSize, int bigSize, int _goal, int* iterationCounter2, int _iterationLimit);
         virtual std::vector<double> meta(std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
             std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta,
-            int _iterationLimit, double& param_val_init, double& param_val_step, int parameterToOptimize = 0)
-        {
-            std::vector<double> sigs;
-            double param_val_end;
-            if (parameterToOptimize == 0)
-            {
-                param_val_step = 100;
-                param_val_init = 100;
-                param_val_end = 1000;
-            }
-            else if (parameterToOptimize == 1)
-            {
-                param_val_step = 0.05;
-                param_val_init = 0.05;
-                param_val_end = 1.0;
-            }
-            for (double param = param_val_init; param < param_val_end; param += param_val_step)
-            {
-                setParameter(parameterToOptimize, param);
-                double averageSig = 0;
-                for (int i = 0; i < sampleGraphBigMeta.size(); i++)
-                {
-                    double sigCurrent = 0;
-                    std::vector<std::vector<int>> graphBig = sampleGraphBigMeta[i];
-                    std::vector<std::vector<int>> graphSmall = sampleGraphSmallMeta[i];
-                    int bigSize = graphBig.size();
-                    int smallSize = graphSmall.size();
-                    int metaIterationCounter = 0;
-                    int metaMinQ = smallSize * smallSize;
-                    Init(smallSize, bigSize, 1, &metaIterationCounter, _iterationLimit);
-                    while (!Iteration(graphBig, graphSmall, metaMinQ)) {}
-                    if (metaMinQ == 0)
-                    {
-                        //sig += 1;
-                        sigCurrent += 1;
-                        sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2; // sig += 0..0.5 ~ 1/w(metaIterCntr)
-                    }
-                    else
-                    {
-                        sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2;
-                        sigCurrent = sigCurrent + (1 - metaMinQ / (smallSize * smallSize)) / 4; //sig += 0..0.25 ~ 1/w(minQ)
-                    }
-                    averageSig += sigCurrent;
-
-                }
-                averageSig /= sampleGraphBigMeta.size();
-                sigs.push_back(averageSig);
-            }
-            int bestSigIndex = 0;
-            double maxSig = 0.;
-            for (int i = 0; i < sigs.size(); i++)
-            {
-                if (sigs[i] > maxSig)
-                {
-                    maxSig = sigs[i];
-                    bestSigIndex = i;
-                }
-            }
-            setParameter(parameterToOptimize, param_val_init + bestSigIndex * param_val_step);
-            return sigs;
-        }
+            int _iterationLimit, double& param_val_init, double& param_val_step, int parameterToOptimize = 0);
         SAMethod() 
         {
             T = 1000;
             Gamma = 0.1;
         }
-        virtual void setParameter(int parameterNumber, double value)
-        {
-            if (parameterNumber == 0)
-                T = value;
-            else if (parameterNumber == 1)
-                Gamma = value;
-        }
+        virtual void setParameter(int parameterNumber, double value);
         
     private:
         double T, Gamma;
