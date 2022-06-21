@@ -125,13 +125,15 @@ void RWMethod::Init(int smallSize, int bigSize, int _goal, int* iterationCounter
     checkedP.clear();
 }
 std::vector<double> RWMethod::meta(std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
-    std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, int _iterationLimit, double& param_val_init, double& param_val_step, int parameterToOptimize)
+    std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, int _iterationLimit, 
+    double& param_val_init, double& param_val_step, std::vector<double>& out_prob, int parameterToOptimize)
 {
     std::vector<double> sigs; // 1 sig = 1 param_val
     param_val_init = 0.;
     param_val_step = 0.05;
     for (d = param_val_init; d < 1.01; d += param_val_step)
     {
+        int TEMPISOCNTR = 0;
         double averageSig = 0;
         for (int i = 0; i < sampleGraphBigMeta.size(); i++)
         {
@@ -146,17 +148,25 @@ std::vector<double> RWMethod::meta(std::vector<std::vector<std::vector<int>> >& 
             while (!Iteration(graphBig, graphSmall, metaMinQ)) {}
             if (metaMinQ == 0)
             {
+                TEMPISOCNTR++;
                 //sig += 1;
                 sigCurrent += 1;
-                sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2; // sig += 0..0.5 ~ 1/w(metaIterCntr)
+                if (metaIterationCounter > _iterationLimit)
+                    metaIterationCounter = _iterationLimit;
+                double change = 0.5 - (double)metaIterationCounter / _iterationLimit / 2;
+                sigCurrent = sigCurrent + 0.5 - (double)metaIterationCounter / _iterationLimit / 2; // sig += 0..0.5 ~ 1/w(metaIterCntr)
             }
             else
             {
-                sigCurrent = sigCurrent + (1 - metaIterationCounter / _iterationLimit) / 2;
-                sigCurrent = sigCurrent + (1 - metaMinQ / (smallSize * smallSize)) / 4; //sig += 0..0.25 ~ 1/w(minQ)
+                if (metaIterationCounter > _iterationLimit)
+                    metaIterationCounter = _iterationLimit;
+                double change = 0.5 - (double)metaIterationCounter / _iterationLimit / 2;
+                sigCurrent = sigCurrent + 0.5 - (double)metaIterationCounter / _iterationLimit / 2;
+                sigCurrent = sigCurrent + (1. - (double)metaMinQ / (smallSize * smallSize)) / 4; //sig += 0..0.25 ~ 1/w(minQ)
             }
             averageSig += sigCurrent;
         }
+        out_prob.push_back((double)TEMPISOCNTR / sampleGraphBigMeta.size());
         averageSig /= sampleGraphBigMeta.size();
         sigs.push_back(averageSig);
     }
@@ -179,4 +189,9 @@ void RWMethod::setParameter(int parameterNumber, double value)
 {
     if (parameterNumber == 0)
         d = value;
+}
+double RWMethod::getParameter(int parameterNumber)
+{
+    if (parameterNumber == 0)
+        return d;
 }

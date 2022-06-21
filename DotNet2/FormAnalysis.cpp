@@ -200,7 +200,7 @@ System::Void DotNet2::FormAnalysis::Repaint(supervisor& super, int graphPairInde
 		else if (i == 4 && (*methodsEnableFlags)[i] == 1)
 		{
 			//SAMethod* sam = new SAMethod();
-
+			PrintMethodResults(super, label17, label16, dataGridView7, j);
 		}
 	}
 

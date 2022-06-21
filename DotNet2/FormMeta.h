@@ -79,7 +79,9 @@ namespace DotNet2 {
 		int isomorphCount;
 		supervisor* super;
 		std::vector<int>* parametersCounts;
-		int metaSizeOfSample;
+	private: System::Windows::Forms::TextBox^ textBox5;
+	private: System::Windows::Forms::Label^ label9;
+		   int metaSizeOfSample;
 	
 		
 
@@ -121,6 +123,8 @@ namespace DotNet2 {
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->âûõîäToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->îÏðîãðàììåToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->textBox5 = (gcnew System::Windows::Forms::TextBox());
+			this->label9 = (gcnew System::Windows::Forms::Label());
 			this->groupBox1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chart1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
@@ -386,11 +390,29 @@ namespace DotNet2 {
 			this->îÏðîãðàììåToolStripMenuItem->Size = System::Drawing::Size(94, 20);
 			this->îÏðîãðàììåToolStripMenuItem->Text = L"Î ïðîãðàììå";
 			// 
+			// textBox5
+			// 
+			this->textBox5->Location = System::Drawing::Point(459, 336);
+			this->textBox5->Name = L"textBox5";
+			this->textBox5->Size = System::Drawing::Size(35, 20);
+			this->textBox5->TabIndex = 20;
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Location = System::Drawing::Point(431, 317);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(95, 13);
+			this->label9->TabIndex = 21;
+			this->label9->Text = L"Ïðåäåë èòåðàöèé";
+			// 
 			// FormMeta
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(670, 446);
+			this->Controls->Add(this->label9);
+			this->Controls->Add(this->textBox5);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->textBox4);

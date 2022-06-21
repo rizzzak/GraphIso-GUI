@@ -10,6 +10,8 @@ class supervisor
 {
 public:
     int getIterationCounter(int pairNumber, int methodNumber);
+    int getIterationLimit();
+    void setIterationLimit(int numberOfIterations);
     bool getFinishFlag(int methodNumber);
     std::vector<std::vector<int>> getIsomoph(int pairNumber, int methodNumber);
     std::vector<int> getIsomorphP(int pairNumber, int methodNumber);
@@ -23,8 +25,9 @@ public:
     void FindGlobalStatsAll(int sizeOfSample);
     
     std::vector<double> Metaoptimization(int methodNumber, std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
-        std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, double& param_val_init, double& param_val_step, int parameterToOptimize);
+        std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, double& param_val_init, double& param_val_step, std::vector<double>& out_prob, int parameterToOptimize);
     void setParameterInMethod(int methodNumber, int parameter, double value);
+    double getParameterInMethod(int methodNumber, int parameter);
     supervisor(std::vector<int> methodsEnableFlags, int _goal, int _iterationLimit);
     void fillSolutionsContainers(std::vector<std::vector<std::vector<int>> >& sampleGraphSmall);
     void getMethodStats(int methodNumber, double& averageQ, double& prob, double& dispers, double& sigma, double& dQ);

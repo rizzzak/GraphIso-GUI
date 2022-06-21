@@ -313,9 +313,9 @@ namespace DotNet2 {
 			// 
 			this->checkedListBox1->CheckOnClick = true;
 			this->checkedListBox1->FormattingEnabled = true;
-			this->checkedListBox1->Items->AddRange(gcnew cli::array< System::Object^  >(7) {
+			this->checkedListBox1->Items->AddRange(gcnew cli::array< System::Object^  >(5) {
 				L"Полный П.", L"Случайный П.", L"Жадный Алг.",
-					L"Случайный Взв. П.", L"Имитация Отж.", L"Муравьиной Кол.", L"Пчелиной Кол."
+					L"Случайный Взв. П.", L"Имитация Отж."
 			});
 			this->checkedListBox1->Location = System::Drawing::Point(677, 51);
 			this->checkedListBox1->Name = L"checkedListBox1";

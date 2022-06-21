@@ -86,16 +86,20 @@ void supervisor::FindGlobalStatsAll(int sizeOfSample) {
 }
 
 std::vector<double> supervisor::Metaoptimization(int methodNumber, std::vector<std::vector<std::vector<int>> >& sampleGraphBigMeta,
-    std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, double& param_val_init, double& param_val_step, int parameterToOptimize) {
+    std::vector<std::vector<std::vector<int>> >& sampleGraphSmallMeta, double& param_val_init, double& param_val_step, std::vector<double>& out_prob, int parameterToOptimize) {
     //метод возвращает вектор сигнатур оптимизируемого метода для построения графиков
     std::vector<double> sigs;
     sigs = metaMethodsList[methodNumber]->meta(sampleGraphBigMeta, sampleGraphSmallMeta,
-        iterationLimit, param_val_init, param_val_step, parameterToOptimize);
+        iterationLimit, param_val_init, param_val_step, out_prob, parameterToOptimize);
     return sigs;
 }
 void supervisor::setParameterInMethod(int methodNumber, int parameter, double value)
 {
     metaMethodsList[methodNumber]->setParameter(parameter, value);
+}
+double supervisor::getParameterInMethod(int methodNumber, int parameter)
+{
+    return metaMethodsList[methodNumber]->getParameter(parameter);
 }
 supervisor::supervisor(std::vector<int> methodsEnableFlags, int _goal, int _iterationLimit)
 {
@@ -177,4 +181,10 @@ int supervisor::getMethodCount() {
 std::string supervisor::getMetaMethodName(int metaMethodNumber)
 {
     return metaMethodsList[metaMethodNumber]->getMethodName();
+}
+int supervisor::getIterationLimit() {
+    return iterationLimit;
+}
+void supervisor::setIterationLimit(int numberOfIterations) {
+    iterationLimit = numberOfIterations;
 }

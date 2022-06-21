@@ -138,7 +138,7 @@ System::Void DotNet2::FormSampleData::button4_Click(System::Object^ sender, Syst
     //оценка сложности задачи
     std::string buf;
     buf = "Число размещений вершин большого графа A по n местам малого графа B: ";
-    int bufInt = (fact(graphASize) / fact(graphASize - graphBSize));
+    long double bufInt = (fact(graphASize) / fact(graphASize - graphBSize));
     buf += std::to_string(bufInt);
     MessageBox::Show(Convert_string_to_String(buf));
 

@@ -84,6 +84,10 @@ namespace DotNet2 {
 	private: System::Windows::Forms::Button^ button10;
 	private: System::Windows::Forms::Button^ button1;
 	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::DataGridView^ dataGridView7;
+	private: System::Windows::Forms::Label^ label16;
+	private: System::Windows::Forms::Label^ label17;
+	private: System::Windows::Forms::Label^ label18;
 	private: System::Windows::Forms::ToolStripMenuItem^ îÏðîãðàììåToolStripMenuItem;
 		   
 
@@ -122,6 +126,10 @@ namespace DotNet2 {
 			this->button10 = (gcnew System::Windows::Forms::Button());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->dataGridView7 = (gcnew System::Windows::Forms::DataGridView());
+			this->label16 = (gcnew System::Windows::Forms::Label());
+			this->label17 = (gcnew System::Windows::Forms::Label());
+			this->label18 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView3))->BeginInit();
@@ -129,6 +137,7 @@ namespace DotNet2 {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView5))->BeginInit();
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView6))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView7))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// dataGridView1
@@ -331,7 +340,7 @@ namespace DotNet2 {
 			});
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(755, 24);
+			this->menuStrip1->Size = System::Drawing::Size(916, 24);
 			this->menuStrip1->TabIndex = 18;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -356,7 +365,7 @@ namespace DotNet2 {
 			this->dataGridView6->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
 			this->dataGridView6->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->dataGridView6->ColumnHeadersVisible = false;
-			this->dataGridView6->Location = System::Drawing::Point(552, 57);
+			this->dataGridView6->Location = System::Drawing::Point(714, 57);
 			this->dataGridView6->Name = L"dataGridView6";
 			this->dataGridView6->ReadOnly = true;
 			this->dataGridView6->RowHeadersVisible = false;
@@ -366,7 +375,7 @@ namespace DotNet2 {
 			// label14
 			// 
 			this->label14->AutoSize = true;
-			this->label14->Location = System::Drawing::Point(586, 41);
+			this->label14->Location = System::Drawing::Point(774, 41);
 			this->label14->Name = L"label14";
 			this->label14->Size = System::Drawing::Size(101, 13);
 			this->label14->TabIndex = 20;
@@ -417,7 +426,7 @@ namespace DotNet2 {
 			this->button2->Font = (gcnew System::Drawing::Font(L"Segoe Print", 14.25F, static_cast<System::Drawing::FontStyle>((System::Drawing::FontStyle::Bold | System::Drawing::FontStyle::Italic)),
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(204)));
 			this->button2->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->button2->Location = System::Drawing::Point(552, 299);
+			this->button2->Location = System::Drawing::Point(722, 306);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(182, 44);
 			this->button2->TabIndex = 32;
@@ -426,11 +435,57 @@ namespace DotNet2 {
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &FormAnalysis::button2_Click);
 			// 
+			// dataGridView7
+			// 
+			this->dataGridView7->AllowUserToAddRows = false;
+			this->dataGridView7->AllowUserToDeleteRows = false;
+			this->dataGridView7->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
+			this->dataGridView7->AutoSizeRowsMode = System::Windows::Forms::DataGridViewAutoSizeRowsMode::AllCells;
+			this->dataGridView7->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->dataGridView7->ColumnHeadersVisible = false;
+			this->dataGridView7->Location = System::Drawing::Point(548, 57);
+			this->dataGridView7->Name = L"dataGridView7";
+			this->dataGridView7->ReadOnly = true;
+			this->dataGridView7->RowHeadersVisible = false;
+			this->dataGridView7->Size = System::Drawing::Size(151, 124);
+			this->dataGridView7->TabIndex = 33;
+			// 
+			// label16
+			// 
+			this->label16->AutoSize = true;
+			this->label16->Location = System::Drawing::Point(685, 41);
+			this->label16->Name = L"label16";
+			this->label16->Size = System::Drawing::Size(14, 13);
+			this->label16->TabIndex = 36;
+			this->label16->Text = L"#";
+			// 
+			// label17
+			// 
+			this->label17->AutoSize = true;
+			this->label17->Location = System::Drawing::Point(594, 184);
+			this->label17->Name = L"label17";
+			this->label17->Size = System::Drawing::Size(69, 13);
+			this->label17->TabIndex = 35;
+			this->label17->Text = L"p={0,1,2,3,4}";
+			// 
+			// label18
+			// 
+			this->label18->AutoSize = true;
+			this->label18->Location = System::Drawing::Point(545, 41);
+			this->label18->Name = L"label18";
+			this->label18->Size = System::Drawing::Size(97, 13);
+			this->label18->TabIndex = 34;
+			this->label18->Text = L"Èìèòàöèè îòæèãà";
+			// 
 			// FormAnalysis
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(755, 411);
+			this->ClientSize = System::Drawing::Size(916, 421);
+			this->Controls->Add(this->label16);
+			this->Controls->Add(this->label17);
+			this->Controls->Add(this->label18);
+			this->Controls->Add(this->dataGridView7);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->button10);
@@ -469,6 +524,7 @@ namespace DotNet2 {
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView6))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView7))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

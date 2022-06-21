@@ -204,4 +204,10 @@ void MethodBase::iterationFinalization(std::vector<std::vector<int>>& bigGraph, 
         iterationLimitExceed = true;
     if (metaMinQ > localQ)
         metaMinQ = localQ;
+    if (localQ == 0)
+    {
+        isomorphsFoundCounter++;
+        if (isomorphsFoundCounter == isomorphsFoundGoal)
+            solutionsFound = true;
+    }
 }
